@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Untitlathon — RSVP soon." />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+  <title>Untitlathon — RSVP soon</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#ffffff;
+      --fg:#000000;
+      --muted:rgba(0,0,0,0.66);
+      --border:rgba(0,0,0,0.18);
+      --card:#ffffff;
+      --box-bg:#0a0a0a;
+      --box-fg:#ffffff;
+    }
+    @media (prefers-color-scheme: dark){
+      :root{
+        --bg:#000000;
+        --fg:#ffffff;
+        --muted:rgba(255,255,255,0.70);
+        --border:rgba(255,255,255,0.18);
+        --card:#000000;
+        --box-bg:#0d0d0d;
+        --box-fg:#ffffff;
+      }
+    }
+    html,body{height:100%}
+    body{
+      background:var(--bg);
+      color:var(--fg);
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    .mono,.font-mono{
+      font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace !important;
+      font-variant-numeric:tabular-nums;
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+    }
+    .bg-neutral{background:var(--box-bg)}
+    .text-neutral-content{color:var(--box-fg)}
+    .rounded-box{border-radius:1.25rem}
+    .focus-ring:focus-visible{
+      outline:2px solid currentColor;
+      outline-offset:3px;
+      border-radius:1rem;
+    }
+    .btn-disabled{
+      opacity:0.55;
+      cursor:not-allowed;
+      pointer-events:none;
+    }
+    .countdown > span{
+      display:inline-block;
+      min-width:2ch;
+      text-align:center;
+      letter-spacing:-0.02em;
+    }
+  </style>
+</head>
+
+<body class="min-h-full">
+  <main class="min-h-[calc(100vh-96px)] flex items-center justify-center px-5">
+    <section class="w-full max-w-2xl text-center">
+      <h1 class="text-5xl sm:text-6xl font-bold tracking-tight">Untitlathon</h1>
+      <p id="heroLine" class="mt-3 text-base sm:text-lg" style="color:var(--muted);">RSVP soon.</p>
+
+      <div class="mt-8 card rounded-3xl px-6 py-7 sm:px-10 sm:py-10">
+        <div class="flex flex-col items-center gap-2">
+          <p id="countLabel" class="text-sm sm:text-base font-semibold" style="color:var(--muted);">RSVP opens in</p>
+          <p class="mono text-xs sm:text-sm" style="color:var(--muted);">2026-01-18 12:00 (UTC−03)</p>
+        </div>
+
+        <div class="mt-7 flex justify-center">
+          <div class="grid auto-cols-max grid-flow-col gap-3 sm:gap-5 text-center">
+            <div class="bg-neutral rounded-box text-neutral-content flex flex-col px-4 py-3 sm:px-5 sm:py-4">
+              <span class="countdown font-mono text-5xl sm:text-6xl">
+                <span id="cdDays" style="--value:0;" aria-live="polite" aria-label="0">0</span>
+              </span>
+              <span class="mt-2 text-xs uppercase tracking-widest opacity-80">days</span>
+            </div>
+
+            <div class="bg-neutral rounded-box text-neutral-content flex flex-col px-4 py-3 sm:px-5 sm:py-4">
+              <span class="countdown font-mono text-5xl sm:text-6xl">
+                <span id="cdHours" style="--value:0;" aria-live="polite" aria-label="0">0</span>
+              </span>
+              <span class="mt-2 text-xs uppercase tracking-widest opacity-80">hours</span>
+            </div>
+
+            <div class="bg-neutral rounded-box text-neutral-content flex flex-col px-4 py-3 sm:px-5 sm:py-4">
+              <span class="countdown font-mono text-5xl sm:text-6xl">
+                <span id="cdMins" style="--value:0;" aria-live="polite" aria-label="0">0</span>
+              </span>
+              <span class="mt-2 text-xs uppercase tracking-widest opacity-80">min</span>
+            </div>
+
+            <div class="bg-neutral rounded-box text-neutral-content flex flex-col px-4 py-3 sm:px-5 sm:py-4">
+              <span class="countdown font-mono text-5xl sm:text-6xl">
+                <span id="cdSecs" style="--value:0;" aria-live="polite" aria-label="0">0</span>
+              </span>
+              <span class="mt-2 text-xs uppercase tracking-widest opacity-80">sec</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8 flex justify-center">
+          <a id="rsvpBtn"
+             href="#rsvp"
+             class="focus-ring inline-flex items-center justify-center px-6 py-3 rounded-2xl font-semibold card btn-disabled"
+             aria-label="RSVP (opens soon)"
+             role="button"
+             tabindex="-1"
+             aria-disabled="true">
+            RSVP (opens soon)
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="rsvp" aria-hidden="true"></div>
+
+  <footer class="h-24 flex items-center justify-center px-5">
+    <div class="w-full max-w-2xl flex flex-col sm:flex-row items-center justify-between gap-3 text-sm" style="color:var(--muted);">
+      <div>© <span id="year"></span> Untitlathon</div>
+      <div class="flex items-center gap-4">
+        <a class="focus-ring underline underline-offset-4" href="#" aria-label="Discord (TBA)">Discord</a>
+        <a class="focus-ring underline underline-offset-4" href="#" aria-label="Instagram (TBA)">Instagram</a>
+        <a class="focus-ring underline underline-offset-4" href="mailto:-@untitlathon.lol" aria-label="Email -@untitlathon.lol">Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const RSVP_OPEN = "2026-01-18T12:00:00-03:00";
+
+    const els = {
+      days: document.getElementById("cdDays"),
+      hours: document.getElementById("cdHours"),
+      mins: document.getElementById("cdMins"),
+      secs: document.getElementById("cdSecs"),
+      label: document.getElementById("countLabel"),
+      btn: document.getElementById("rsvpBtn"),
+      heroLine: document.getElementById("heroLine"),
+      year: document.getElementById("year")
+    };
+
+    els.year.textContent = String(new Date().getFullYear());
+
+    function setValue(el, v){
+      const n = Math.max(0, Math.floor(v));
+      el.textContent = String(n);
+      el.setAttribute("aria-label", String(n));
+      el.style.setProperty("--value", String(n));
+    }
+
+    const openAt = new Date(RSVP_OPEN).getTime();
+
+    function setClosed(days, hours, mins, secs){
+      els.label.textContent = "RSVP opens in";
+      setValue(els.days, days);
+      setValue(els.hours, hours);
+      setValue(els.mins, mins);
+      setValue(els.secs, secs);
+      els.heroLine.textContent = "RSVP soon.";
+      document.title = "Untitlathon — RSVP soon";
+      els.btn.textContent = "RSVP (opens soon)";
+      els.btn.setAttribute("aria-disabled", "true");
+      els.btn.setAttribute("tabindex", "-1");
+      els.btn.classList.add("btn-disabled");
+    }
+
+    function setOpen(){
+      els.label.textContent = "RSVP is open";
+      setValue(els.days, 0);
+      setValue(els.hours, 0);
+      setValue(els.mins, 0);
+      setValue(els.secs, 0);
+      els.heroLine.textContent = "RSVP open.";
+      document.title = "Untitlathon — RSVP open";
+      els.btn.textContent = "RSVP";
+      els.btn.setAttribute("aria-disabled", "false");
+      els.btn.setAttribute("tabindex", "0");
+      els.btn.classList.remove("btn-disabled");
+    }
+
+    function tick(){
+      const diff = openAt - Date.now();
+      if (diff <= 0){
+        setOpen();
+        return 0;
+      }
+      const t = Math.floor(diff / 1000);
+      const days = Math.floor(t / 86400);
+      const hours = Math.floor((t % 86400) / 3600);
+      const mins = Math.floor((t % 3600) / 60);
+      const secs = t % 60;
+      setClosed(days, hours, mins, secs);
+      return diff;
+    }
+
+    tick();
+    const timer = setInterval(() => {
+      if (tick() <= 0) clearInterval(timer);
+    }, 1000);
+  </script>
+</body>
+</html>
